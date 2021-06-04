@@ -30,7 +30,7 @@ namespace Livign.CodeToDesign
             var typeToAnalyzeSymbol = (ITypeSymbol)compilation.GetTypeByMetadataName(classFullyQualifiedName);
             var methodToAnalyzeSymbol = (IMethodSymbol)typeToAnalyzeSymbol.GetMembers(methodName).Single(m => m is IMethodSymbol);
 
-            var sqEntries = CreateSQEntriesForMethod(compilation, typeToAnalyzeSymbol, methodToAnalyzeSymbol);
+            var sqEntries = CreateSQEntriesForMethod(compilation, methodToAnalyzeSymbol);
 
             return GenerateSequenceDiagram(typeToAnalyzeSymbol, sqEntries);
         }
@@ -44,11 +44,15 @@ namespace Livign.CodeToDesign
             return await project.GetCompilationAsync().ConfigureAwait(false);
         }
 
-        private static List<SequenceDiagramEntry> CreateSQEntriesForMethod(Compilation compilation, ITypeSymbol typeToAnalyzeSymbol, IMethodSymbol methodToAnalyzeSymbol)
+        private static List<SequenceDiagramEntry> CreateSQEntriesForMethod(Compilation compilation, IMethodSymbol methodToAnalyzeSymbol)
         {
+            var typeToAnalyzeSymbol = methodToAnalyzeSymbol.ContainingType;
             var methodToAnalyzeSyntaxTreeRoot = methodToAnalyzeSymbol.DeclaringSyntaxReferences.Single()
                             .SyntaxTree
-                            .GetRoot();
+                            .GetRoot()
+                            .DescendantNodes()
+                            .OfType<MethodDeclarationSyntax>()
+                            .Single(n => n.Identifier.ToFullString() == methodToAnalyzeSymbol.Name); //Don't support overloads yet
             var methodToAnalyzeSemanticModel = compilation.GetSemanticModel(methodToAnalyzeSyntaxTreeRoot.SyntaxTree);
 
             var invocationMethodSymbols = methodToAnalyzeSyntaxTreeRoot.DescendantNodes()
@@ -61,11 +65,17 @@ namespace Livign.CodeToDesign
 
             foreach (var invocationMethodSymbol in invocationMethodSymbols)
             {
-                sqEntries.Add(new SequenceDiagramEntry(
-                    CallingActor: typeToAnalyzeSymbol.Name,
-                    CalledActor: invocationMethodSymbol.ContainingType.Name,
-                    Description: invocationMethodSymbol.Name
-                ));
+                if (!SymbolEqualityComparer.Default.Equals(invocationMethodSymbol.ContainingType, typeToAnalyzeSymbol))
+                {
+                    sqEntries.Add(new SequenceDiagramEntry(
+                        CallingActor: typeToAnalyzeSymbol.Name,
+                        CalledActor: invocationMethodSymbol.ContainingType.Name,
+                        Description: invocationMethodSymbol.Name
+                    ));
+                }
+
+                var sqEntriesForInvokingMethods = CreateSQEntriesForMethod(compilation, invocationMethodSymbol);
+                sqEntries.AddRange(sqEntriesForInvokingMethods);
             }
 
             return sqEntries;

@@ -64,6 +64,18 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: EmptyMethod1
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToOtherActorViaPrivateMethod {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
+        ///    Actor1-&gt;&gt;Actor2: EmptyMethod1
         ///    Actor1-&gt;&gt;Actor2: EmptyMethod2
         ///    deactivate Actor1.
         /// </summary>

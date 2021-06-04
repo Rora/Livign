@@ -26,6 +26,8 @@ namespace Livign.CodeToDesign.Specs.Features
 	- which class should be analyzed
 	- which method should be analyzed
  - The diagram is generated using the mermaidJS syntax
+ - Method calls within the same type are not modeled
+	- Method calls to other types made in referenced calls are modeled
  - Method calls to other classes are modeled
  - When multiple calls to other class(es) occur, the caller is 'activated' ", SourceFile="Features\\GenerateSequenceDiagram.feature", SourceLine=0)]
     public partial class GenerateASequenceDiagramFeature
@@ -49,6 +51,8 @@ namespace Livign.CodeToDesign.Specs.Features
 	- which class should be analyzed
 	- which method should be analyzed
  - The diagram is generated using the mermaidJS syntax
+ - Method calls within the same type are not modeled
+	- Method calls to other types made in referenced calls are modeled
  - Method calls to other classes are modeled
  - When multiple calls to other class(es) occur, the caller is 'activated' ", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
@@ -86,13 +90,13 @@ namespace Livign.CodeToDesign.Specs.Features
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another class", SourceLine=11)]
-        public virtual void SequenceDiagramWithACallToAnotherClass()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with two calls to another type", SourceLine=13)]
+        public virtual void SequenceDiagramWithTwoCallsToAnotherType()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another class", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 12
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with two calls to another type", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 14
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -122,12 +126,59 @@ this.ScenarioInitialize(scenarioInfo);
                             "TestProject1",
                             "TestProject1.Actor1",
                             "TwoDifferentCallsToOtherActor"});
-#line 13
+#line 15
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table1, "When ");
 #line hidden
-#line 16
+#line 18
  testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.TwoDiffere" +
                         "ntCallsToOtherActor\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type via a method on the same type", SourceLine=19)]
+        public virtual void SequenceDiagramWithACallToAnotherTypeViaAMethodOnTheSameType()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type via a method on the same type", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 20
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
+                            "Project",
+                            "Class",
+                            "Method"});
+                table2.AddRow(new string[] {
+                            "Livign.sln",
+                            "TestProject1",
+                            "TestProject1.Actor1",
+                            "OneCallToOtherActorViaPrivateMethod"});
+#line 21
+ testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table2, "When ");
+#line hidden
+#line 24
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToO" +
+                        "therActorViaPrivateMethod\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
