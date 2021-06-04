@@ -2,14 +2,14 @@
 
 namespace TestProject1
 {
-    internal class Engine
+    internal class Actor2
     {
-        internal void Start()
+        internal void EmptyMethod1()
         {
             throw new NotImplementedException();
         }
 
-        internal void Stop()
+        internal void EmptyMethod2()
         {
             throw new NotImplementedException();
         }

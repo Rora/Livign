@@ -12,8 +12,8 @@ Business rules:
 Scenario: Sequence diagram with a call to another class
 	When I call Livign.CodeToDesign with the following parameters
 		| SolutionFile | Project      | Class            | Method  |
-		| Livign.sln   | TestProject1 | TestProject1.Car | DriveTo |
-	Then the result should be equal to the 'SequenceDiagram.TestProject1.Car.DriveTo' entry in the resx
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | TwoDifferentCallsToOtherActor |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.TwoDifferentCallsToOtherActor' entry in the resx
 
 #Test with a call on the result of a method
 #Test with a call to a private methods

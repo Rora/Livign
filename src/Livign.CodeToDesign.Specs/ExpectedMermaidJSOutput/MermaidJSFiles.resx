@@ -117,21 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SequenceDiagram.TestProject1.Car.DriveTo" xml:space="preserve">
+  <data name="SequenceDiagram.TestProject1.Actor1.TwoDifferentCallsToOtherActor" xml:space="preserve">
     <value>sequenceDiagram
-    activate Car
-    Car-&gt;&gt;Engine: Start
-    Car-&gt;&gt;Engine: Stop
-    deactivate Car</value>
-  </data>
-  <data name="SequenceDiagram.TestProject1.Person.Workout" xml:space="preserve">
-    <value>sequenceDiagram
-    activate Person
-    Person-&gt;&gt;+Car: DriveTo
-    Car-&gt;&gt;Engine: Start
-    Car-&gt;&gt;Engine: Stop
-    Car-&gt;&gt;-Person:  
-    Person-&gt;&gt;Gym: Workout
-    deactivate Person</value>
+    activate Actor1
+    Actor1-&gt;&gt;Actor2: EmptyMethod1
+    Actor1-&gt;&gt;Actor2: EmptyMethod2
+    deactivate Actor1</value>
   </data>
 </root>

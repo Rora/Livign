@@ -62,30 +62,14 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         
         /// <summary>
         ///   Looks up a localized string similar to sequenceDiagram
-        ///    activate Car
-        ///    Car-&gt;&gt;Engine: Start
-        ///    Car-&gt;&gt;Engine: Stop
-        ///    deactivate Car.
+        ///    activate Actor1
+        ///    Actor1-&gt;&gt;Actor2: EmptyMethod1
+        ///    Actor1-&gt;&gt;Actor2: EmptyMethod2
+        ///    deactivate Actor1.
         /// </summary>
-        internal static string SequenceDiagram_TestProject1_Car_DriveTo {
+        internal static string SequenceDiagram_TestProject1_Actor1_TwoDifferentCallsToOtherActor {
             get {
-                return ResourceManager.GetString("SequenceDiagram.TestProject1.Car.DriveTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to sequenceDiagram
-        ///    activate Person
-        ///    Person-&gt;&gt;+Car: DriveTo
-        ///    Car-&gt;&gt;Engine: Start
-        ///    Car-&gt;&gt;Engine: Stop
-        ///    Car-&gt;&gt;-Person:  
-        ///    Person-&gt;&gt;Gym: Workout
-        ///    deactivate Person.
-        /// </summary>
-        internal static string SequenceDiagram_TestProject1_Person_Workout {
-            get {
-                return ResourceManager.GetString("SequenceDiagram.TestProject1.Person.Workout", resourceCulture);
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.TwoDifferentCallsToOtherActor", resourceCulture);
             }
         }
     }

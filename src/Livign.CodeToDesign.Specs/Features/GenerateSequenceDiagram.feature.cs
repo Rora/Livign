@@ -120,14 +120,14 @@ this.ScenarioInitialize(scenarioInfo);
                 table1.AddRow(new string[] {
                             "Livign.sln",
                             "TestProject1",
-                            "TestProject1.Car",
-                            "DriveTo"});
+                            "TestProject1.Actor1",
+                            "TwoDifferentCallsToOtherActor"});
 #line 13
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table1, "When ");
 #line hidden
 #line 16
- testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Car.DriveTo\' entr" +
-                        "y in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.TwoDiffere" +
+                        "ntCallsToOtherActor\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
