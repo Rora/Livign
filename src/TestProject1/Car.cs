@@ -4,10 +4,10 @@ namespace TestProject1
 {
     public class Car
     {
-        private Engine _engine = new Engine();
+        private readonly Engine _engine = new();
 
         internal void DriveTo(string destination)
-        {
+        {   
             _engine.Start();
             _engine.Stop();
         }

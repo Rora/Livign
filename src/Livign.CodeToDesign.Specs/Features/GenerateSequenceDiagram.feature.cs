@@ -86,13 +86,13 @@ namespace Livign.CodeToDesign.Specs.Features
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another class", SourceLine=12)]
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another class", SourceLine=11)]
         public virtual void SequenceDiagramWithACallToAnotherClass()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another class", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -113,17 +113,19 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
                             "Project",
                             "Class",
                             "Method"});
                 table1.AddRow(new string[] {
+                            "Livign.sln",
                             "TestProject1",
-                            "Car",
+                            "TestProject1.Car",
                             "DriveTo"});
-#line 14
+#line 13
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table1, "When ");
 #line hidden
-#line 17
+#line 16
  testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Car.DriveTo\' entr" +
                         "y in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

@@ -1,5 +1,4 @@
 ﻿Feature: Generate a sequence diagram
-
 Business rules:
  - A sequence diagram can be generated for a method
  - The user specifies: 
@@ -12,6 +11,9 @@ Business rules:
 
 Scenario: Sequence diagram with a call to another class
 	When I call Livign.CodeToDesign with the following parameters
-		| Project      | Class | Method  |
-		| TestProject1 | Car   | DriveTo |
+		| SolutionFile | Project      | Class            | Method  |
+		| Livign.sln   | TestProject1 | TestProject1.Car | DriveTo |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Car.DriveTo' entry in the resx
+
+#Test with a call on the result of a method
+#Test with a call to a private methods

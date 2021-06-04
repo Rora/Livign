@@ -26,10 +26,10 @@ namespace Livign.CodeToDesign.Specs.Steps
         public async Task WhenICallLivign_CodeToDesignWithTheFollowingParameters(Table table)
         {
             var paramsDto = table.CreateInstance<CodeToDesignParamsDto>();
-            var projectLoc = Path.Combine(Environment.CurrentDirectory, "..", paramsDto.Project);
+            var slnFileLoc = Path.Combine(Environment.CurrentDirectory, "..", paramsDto.SolutionFile);
 
             var sut = new SequenceDiagramGenerator();
-            var generatedDiagram = await sut.GenerateAsync(projectLoc, paramsDto.Class, paramsDto.Method);
+            var generatedDiagram = await sut.GenerateAsync(slnFileLoc, paramsDto.Project, paramsDto.Class, paramsDto.Method);
             _ctx.Set(generatedDiagram, ContextKeys.LastGeneratedDiagramKey);
         }
 
