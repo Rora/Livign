@@ -183,6 +183,194 @@ this.ScenarioInitialize(scenarioInfo);
             }
             this.ScenarioCleanup();
         }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type that assigns the return value", SourceLine=25)]
+        public virtual void SequenceDiagramWithACallToAnotherTypeThatAssignsTheReturnValue()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type that assigns the return value", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 26
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
+                            "Project",
+                            "Class",
+                            "Method"});
+                table3.AddRow(new string[] {
+                            "Livign.sln",
+                            "TestProject1",
+                            "TestProject1.Actor1",
+                            "OneCallToOtherActorWithAssignment"});
+#line 27
+ testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table3, "When ");
+#line hidden
+#line 30
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToO" +
+                        "therActorWithAssignment\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a static call to another type", SourceLine=31)]
+        public virtual void SequenceDiagramWithAStaticCallToAnotherType()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a static call to another type", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 32
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
+                            "Project",
+                            "Class",
+                            "Method"});
+                table4.AddRow(new string[] {
+                            "Livign.sln",
+                            "TestProject1",
+                            "TestProject1.Actor1",
+                            "OneStaticCallToOtherActor"});
+#line 33
+ testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table4, "When ");
+#line hidden
+#line 36
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneStaticC" +
+                        "allToOtherActor\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type in an assembly without symbols", SourceLine=37)]
+        public virtual void SequenceDiagramWithACallToAnotherTypeInAnAssemblyWithoutSymbols()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type in an assembly without symbols", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 38
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
+                            "Project",
+                            "Class",
+                            "Method"});
+                table5.AddRow(new string[] {
+                            "Livign.sln",
+                            "TestProject1",
+                            "TestProject1.Actor1",
+                            "OneCallToAClassFromAssemblyWithoutSymbols"});
+#line 39
+ testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table5, "When ");
+#line hidden
+#line 42
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToA" +
+                        "ClassFromAssemblyWithoutSymbols\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Temp", SourceLine=43)]
+        public virtual void Temp()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Temp", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 44
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                            "SolutionFile",
+                            "Project",
+                            "Class",
+                            "Method"});
+                table6.AddRow(new string[] {
+                            "Livign.sln",
+                            "Livign.CodeToDesign",
+                            "Livign.CodeToDesign.SequenceDiagramGenerator",
+                            "GenerateAsync"});
+#line 45
+ testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table6, "When ");
+#line hidden
+#line 48
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToO" +
+                        "therActorViaPrivateMethod\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

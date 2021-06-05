@@ -13,5 +13,15 @@ namespace TestProject1
         {
             throw new NotImplementedException();
         }
+
+        internal object MethodWithReturnValue()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void StaticMethod()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

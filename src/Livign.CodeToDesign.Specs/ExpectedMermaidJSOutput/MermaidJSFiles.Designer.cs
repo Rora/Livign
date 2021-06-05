@@ -63,12 +63,48 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         /// <summary>
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
+        ///    Actor1-&gt;&gt;JsonConvert: DeserializeObject
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToAClassFromAssemblyWithoutSymbols {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: EmptyMethod1
         ///    deactivate Actor1.
         /// </summary>
         internal static string SequenceDiagram_TestProject1_Actor1_OneCallToOtherActorViaPrivateMethod {
             get {
                 return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
+        ///    Actor1-&gt;&gt;Actor2: MethodWithReturnValue
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToOtherActorWithAssignment {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorWithAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
+        ///    Actor1-&gt;&gt;Actor2: StaticMethod
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_OneStaticCallToOtherActor {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneStaticCallToOtherActor", resourceCulture);
             }
         }
         

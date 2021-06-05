@@ -23,5 +23,28 @@ Scenario: Sequence diagram with a call to another type via a method on the same 
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | OneCallToOtherActorViaPrivateMethod |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod' entry in the resx
 
+Scenario: Sequence diagram with a call to another type that assigns the return value
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                            |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | OneCallToOtherActorWithAssignment |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorWithAssignment' entry in the resx
+	
+Scenario: Sequence diagram with a static call to another type
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                    |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | OneStaticCallToOtherActor |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneStaticCallToOtherActor' entry in the resx
+
+Scenario: Sequence diagram with a call to another type in an assembly without symbols
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                    |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | OneCallToAClassFromAssemblyWithoutSymbols |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols' entry in the resx
+
+Scenario: Temp
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project             | Class                                        | Method        |
+		| Livign.sln   | Livign.CodeToDesign | Livign.CodeToDesign.SequenceDiagramGenerator | GenerateAsync |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod' entry in the resx
 #Test with a call on the result of a method
 #Test with a call to a private methods

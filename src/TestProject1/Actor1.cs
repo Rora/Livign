@@ -4,7 +4,7 @@ namespace TestProject1
 {
     public class Actor1
     {
-        private readonly Actor2 _actor2 = new();
+        private readonly Actor2 _actor2 = new Actor2();
 
         internal void TwoDifferentCallsToOtherActor()
         {
@@ -20,6 +20,18 @@ namespace TestProject1
         private void OneCallToOtherActorViaPrivateMethod_Private()
         {
             _actor2.EmptyMethod1();
+        }
+        public void OneCallToOtherActorWithAssignment()
+        { 
+            var result = _actor2.MethodWithReturnValue();
+        }
+        public void OneStaticCallToOtherActor()
+        {
+            TestProject1.Actor2.StaticMethod();
+        }
+        public void OneCallToAClassFromAssemblyWithoutSymbols()
+        {  
+            Newtonsoft.Json.JsonConvert.DeserializeObject("{}");
         }
     }
 }
