@@ -35,7 +35,8 @@ namespace Livign.CodeToDesign
             var typeToAnalyzeSymbol = (ITypeSymbol)compilation.GetTypeByMetadataName(classFullyQualifiedName);
             var methodToAnalyzeSymbol = (IMethodSymbol)typeToAnalyzeSymbol.GetMembers(methodName).Single(m => m is IMethodSymbol);
 
-            var sqEntries = CreateSQEntriesForMethod(compilation, methodToAnalyzeSymbol);
+            var callStack = new List<IMethodSymbol>();
+            var sqEntries = CreateSQEntriesForMethod(compilation, methodToAnalyzeSymbol, callStack);
 
             return GenerateSequenceDiagram(typeToAnalyzeSymbol, sqEntries);
         }
@@ -82,13 +83,21 @@ namespace Livign.CodeToDesign
             }
         }
 
-        private static List<SequenceDiagramEntry> CreateSQEntriesForMethod(Compilation compilation, IMethodSymbol methodToAnalyzeSymbol)
+        private static List<SequenceDiagramEntry> CreateSQEntriesForMethod(Compilation compilation, IMethodSymbol methodToAnalyzeSymbol, IList<IMethodSymbol> callStack)
         {
-            if(!methodToAnalyzeSymbol.DeclaringSyntaxReferences.Any())
+            if (!methodToAnalyzeSymbol.DeclaringSyntaxReferences.Any())
             {
                 //If we can't find any declaring syntax references then we assume this type and method were declared in an external dll
                 return new List<SequenceDiagramEntry>();
             }
+
+            if (callStack.Any(methodSymbol => SymbolEqualityComparer.Default.Equals(methodSymbol, methodToAnalyzeSymbol)))
+            {
+                //This method call was already found in the callstack, don't analyze this method to prevent an infinite recursive loop
+                return new List<SequenceDiagramEntry>();
+            }
+
+            callStack.Add(methodToAnalyzeSymbol);
 
             var typeToAnalyzeSymbol = methodToAnalyzeSymbol.ContainingType;
             var methodToAnalyzeSyntaxTreeRoot = methodToAnalyzeSymbol.DeclaringSyntaxReferences.Single()
@@ -118,10 +127,11 @@ namespace Livign.CodeToDesign
                     ));
                 }
 
-                var sqEntriesForInvokingMethods = CreateSQEntriesForMethod(compilation, invocationMethodSymbol);
+                var sqEntriesForInvokingMethods = CreateSQEntriesForMethod(compilation, invocationMethodSymbol, callStack);
                 sqEntries.AddRange(sqEntriesForInvokingMethods);
             }
 
+            callStack.Remove(methodToAnalyzeSymbol);
             return sqEntries;
         }
 

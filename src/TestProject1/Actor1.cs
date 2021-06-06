@@ -25,6 +25,7 @@ namespace TestProject1
         { 
             var result = _actor2.MethodWithReturnValue();
         }
+
         public void OneStaticCallToOtherActor()
         {
             TestProject1.Actor2.StaticMethod();
@@ -33,5 +34,19 @@ namespace TestProject1
         {  
             Newtonsoft.Json.JsonConvert.DeserializeObject("{}");
         }
+        public void SelfCallingRecursiveMethod()
+        {
+            this.SelfCallingRecursiveMethod();
+        }
+        public void MethodThatRecursIn3Steps_1()
+        {
+            _actor2.MethodThatRecursIn3Steps_2();
+        }
+
+        internal void MethodThatRecursIn3Steps_3()
+        {
+            MethodThatRecursIn3Steps_1();
+        }
+
     }
 }

@@ -4,6 +4,8 @@ namespace TestProject1
 {
     internal class Actor2
     {
+        private Actor1 _actor1 = new();
+
         internal void EmptyMethod1()
         {
             throw new NotImplementedException();
@@ -22,6 +24,11 @@ namespace TestProject1
         internal static void StaticMethod()
         {
             throw new NotImplementedException();
+        }
+
+        internal void MethodThatRecursIn3Steps_2()
+        {
+            _actor1.MethodThatRecursIn3Steps_3();
         }
     }
 }

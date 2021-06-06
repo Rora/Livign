@@ -41,11 +41,22 @@ Scenario: Sequence diagram with a call to another type in an assembly without sy
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | OneCallToAClassFromAssemblyWithoutSymbols |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols' entry in the resx
 
+Scenario: Sequence diagram with a recursive call
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                     |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | SelfCallingRecursiveMethod |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.SelfCallingRecursiveMethod' entry in the resx
+
+Scenario: Sequence diagram with a call that recurs in 3 steps
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                     |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatRecursIn3Steps_1 |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn3Steps_1' entry in the resx
+
 Scenario: Temp
 	When I call Livign.CodeToDesign with the following parameters
 		| SolutionFile | Project             | Class                                        | Method        |
 		| Livign.sln   | Livign.CodeToDesign | Livign.CodeToDesign.SequenceDiagramGenerator | GenerateAsync |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod' entry in the resx
-
 #Test with a call on the result of a method
 #Test with a call to a private methods
