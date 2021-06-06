@@ -1,5 +1,7 @@
-﻿using Microsoft.Build.Locator;
+﻿using Buildalyzer;
+using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -40,14 +42,30 @@ namespace Livign.CodeToDesign
 
         private static async Task<Compilation> LoadAndCompileProjectAsync(string pathToSlnFile, string projectName)
         {
-            var workspace = MSBuildWorkspace.Create();
+            var _ = typeof(Microsoft.CodeAnalysis.CSharp.Formatting.CSharpFormattingOptions); // this line forces a reference so MSBuild loads the assembly in question.
+            var workspace = MSBuildWorkspace.Create(
+                new Dictionary<string, string>() { { "Configuration", "Debug" }, { "Platform", "AnyCPU" } });
             var sln = await workspace.OpenSolutionAsync(pathToSlnFile).ConfigureAwait(false);
-            var project = sln.Projects.Single(p => p.Name == projectName);
+            var project = GetProject(pathToSlnFile, projectName, sln);
 
             var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
             ValidateCompilation(compilation);
-            
+
             return compilation;
+        }
+
+        private static Project GetProject(string pathToSlnFile, string projectName, Solution sln)
+        {
+            var project = sln.Projects.Single(p => p.Name == projectName);
+
+            //Use buildalyzer to overwrite the references since that seems to be missing for netcoreapps and net5.0
+            var analyzerManager = new AnalyzerManager(pathToSlnFile);
+            var projectAnalyzer = analyzerManager.Projects.Values.Single(p => p.ProjectFile.Name == Path.GetFileName(project.FilePath));
+            var analyzerResults = projectAnalyzer.Build().First(); //First because it has 1 entry for each target framework
+
+            project = project
+                .WithMetadataReferences(analyzerResults.References.Select(refPath => MetadataReference.CreateFromFile(refPath)));
+            return project;
         }
 
         private static void ValidateCompilation(Compilation compilation)
