@@ -24,14 +24,12 @@ namespace Livign.CodeToDesign
 
         /// <summary>
         /// Current impl doesn't support:
-        ///   .net 5 projects - for some reason the msbuild workspace won't load references for .net5
         ///   methods that have multiple overloads
         /// </summary>
         public async Task<string> GenerateAsync(string pathToSlnFile, string projectName, string classFullyQualifiedName, string methodName)
         {
             var compilation = await LoadAndCompileProjectAsync(pathToSlnFile, projectName).ConfigureAwait(false);
-            var cnt = compilation.References.Count(); //TODO check why this is empty
-
+            
             var typeToAnalyzeSymbol = (ITypeSymbol)compilation.GetTypeByMetadataName(classFullyQualifiedName);
             var methodToAnalyzeSymbol = (IMethodSymbol)typeToAnalyzeSymbol.GetMembers(methodName).Single(m => m is IMethodSymbol);
 
