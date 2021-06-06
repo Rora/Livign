@@ -63,6 +63,20 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         /// <summary>
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
+        ///    Actor1-&gt;&gt;Actor2: MethodThatRecursIn2Steps_2
+        ///    Actor2-&gt;&gt;Actor1: MethodThatRecursIn2Steps_1
+        ///    Actor2-&gt;&gt;Actor1: EmptyCall
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_MethodThatRecursIn2Steps_1 {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn2Steps_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: MethodThatRecursIn3Steps_2
         ///    Actor2-&gt;&gt;Actor1: MethodThatRecursIn3Steps_3
         ///    deactivate Actor1.

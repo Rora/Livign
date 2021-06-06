@@ -30,5 +30,11 @@ namespace TestProject1
         {
             _actor1.MethodThatRecursIn3Steps_3();
         }
+
+        internal void MethodThatRecursIn2Steps_2()
+        {
+            _actor1.MethodThatRecursIn2Steps_1();
+            _actor1.EmptyCall();
+        }
     }
 }

@@ -38,6 +38,15 @@ namespace TestProject1
         {
             this.SelfCallingRecursiveMethod();
         }
+        public void MethodThatRecursIn2Steps_1()
+        {
+            _actor2.MethodThatRecursIn2Steps_2();
+        }
+        public void EmptyCall()
+        {
+
+        }
+
         public void MethodThatRecursIn3Steps_1()
         {
             _actor2.MethodThatRecursIn3Steps_2();

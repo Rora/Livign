@@ -9,6 +9,8 @@ Business rules:
  - Method calls within the same type are not modeled
 	- Method calls to other types made in referenced calls are modeled
  - Method calls to other classes are modeled
+ - Recursive calls are detected and their contents will only be modeled once
+	- This includes self calling recursive methods and recursion that takes some more steps (e.g. A -> B -> A)
  - When multiple calls to other class(es) occur, the caller is 'activated' 
 
 Scenario: Sequence diagram with two calls to another type
@@ -47,7 +49,13 @@ Scenario: Sequence diagram with a recursive call
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | SelfCallingRecursiveMethod |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.SelfCallingRecursiveMethod' entry in the resx
 
-Scenario: Sequence diagram with a call that recurs in 3 steps
+Scenario: Sequence diagram with a call that recurs in 2 steps
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                     |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatRecursIn2Steps_1 |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn2Steps_1' entry in the resx
+
+Scenario: Sequence diagram with a call that recurs in 3 steps (last one via a call on the same class)
 	When I call Livign.CodeToDesign with the following parameters
 		| SolutionFile | Project      | Class               | Method                     |
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatRecursIn3Steps_1 |
