@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.MSBuild;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,14 +30,15 @@ namespace Livign.CodeToDesign
         public async Task<string> GenerateAsync(string pathToSlnFile, string projectName, string classFullyQualifiedName, string methodName)
         {
             var compilation = await LoadAndCompileProjectAsync(pathToSlnFile, projectName).ConfigureAwait(false);
-            
+
             var typeToAnalyzeSymbol = (ITypeSymbol)compilation.GetTypeByMetadataName(classFullyQualifiedName);
             var methodToAnalyzeSymbol = (IMethodSymbol)typeToAnalyzeSymbol.GetMembers(methodName).Single(m => m is IMethodSymbol);
 
+            var sqRootMethod = new SequenceDiagramMethod(string.Empty, methodToAnalyzeSymbol.ContainingType.Name, methodToAnalyzeSymbol.Name);
             var callStack = new List<IMethodSymbol>();
-            var sqEntries = CreateSQEntriesForMethod(compilation, methodToAnalyzeSymbol, callStack);
+            AnalyzeCallsToOtherTypesForMethod(sqRootMethod, compilation, methodToAnalyzeSymbol, callStack);
 
-            return GenerateSequenceDiagram(typeToAnalyzeSymbol, sqEntries);
+            return GenerateSequenceDiagram(typeToAnalyzeSymbol, sqRootMethod);
         }
 
         private static async Task<Compilation> LoadAndCompileProjectAsync(string pathToSlnFile, string projectName)
@@ -81,18 +83,20 @@ namespace Livign.CodeToDesign
             }
         }
 
-        private static List<SequenceDiagramEntry> CreateSQEntriesForMethod(Compilation compilation, IMethodSymbol methodToAnalyzeSymbol, IList<IMethodSymbol> callStack)
+        private static void AnalyzeCallsToOtherTypesForMethod(SequenceDiagramMethod methodAnalyzeResult,
+            Compilation compilation, IMethodSymbol methodToAnalyzeSymbol, IList<IMethodSymbol> callStack)
         {
             if (!methodToAnalyzeSymbol.DeclaringSyntaxReferences.Any())
             {
                 //If we can't find any declaring syntax references then we assume this type and method were declared in an external dll
-                return new List<SequenceDiagramEntry>();
+                return;
             }
 
             if (callStack.Any(methodSymbol => SymbolEqualityComparer.Default.Equals(methodSymbol, methodToAnalyzeSymbol)))
             {
                 //This method call was already found in the callstack, don't analyze this method to prevent an infinite recursive loop
-                return new List<SequenceDiagramEntry>();
+                return;
+
             }
 
             callStack.Add(methodToAnalyzeSymbol);
@@ -112,32 +116,46 @@ namespace Livign.CodeToDesign
                 .Where(symb => symb != null)
                 .ToArray();
 
-            var sqEntries = new List<SequenceDiagramEntry>();
-
             foreach (var invocationMethodSymbol in invocationMethodSymbols)
             {
+                SequenceDiagramMethod resultForInvocationsOfInvocatingMethod;
+
+                //We only want to create entries for calls to other types, not calls to the same type.
                 if (!SymbolEqualityComparer.Default.Equals(invocationMethodSymbol.ContainingType, typeToAnalyzeSymbol))
                 {
-                    sqEntries.Add(new SequenceDiagramEntry(
+                    var sqEntry = new SequenceDiagramMethod(
                         CallingActor: typeToAnalyzeSymbol.Name,
                         CalledActor: invocationMethodSymbol.ContainingType.Name,
                         Description: invocationMethodSymbol.Name
-                    ));
+                    );
+                    methodAnalyzeResult.CallsToOtherTypes.Add(sqEntry);
+                    resultForInvocationsOfInvocatingMethod = sqEntry;
+                }
+                else
+                {
+                    resultForInvocationsOfInvocatingMethod = methodAnalyzeResult;
                 }
 
-                var sqEntriesForInvokingMethods = CreateSQEntriesForMethod(compilation, invocationMethodSymbol, callStack);
-                sqEntries.AddRange(sqEntriesForInvokingMethods);
+                AnalyzeCallsToOtherTypesForMethod(resultForInvocationsOfInvocatingMethod, compilation, invocationMethodSymbol, callStack);
             }
 
             callStack.Remove(methodToAnalyzeSymbol);
-            return sqEntries;
         }
 
-        private static string GenerateSequenceDiagram(ITypeSymbol typeToAnalyzeSymbol, List<SequenceDiagramEntry> sqEntries)
+        private static string GenerateSequenceDiagram(ITypeSymbol typeToAnalyzeSymbol,
+            SequenceDiagramMethod sqRootMethod)
         {
+            var serializedMethods = sqRootMethod.CallsToOtherTypes.SelectMany(m => SerializeWithInnerMethods(m));
+
             var sequenceDiagramBody = String.Join(Environment.NewLine,
-                sqEntries.Select(sqEntry => $"    {sqEntry.CallingActor}->>{sqEntry.CalledActor}: {sqEntry.Description}"));
+                serializedMethods.Select(sqEntry => $"    {sqEntry.CallingActor}->>{sqEntry.CalledActor}: {sqEntry.Description}"));
             return String.Format(DiagramTemplates.SequenceDiagramTemplate, typeToAnalyzeSymbol.Name, sequenceDiagramBody);
         }
+        private static IEnumerable<SequenceDiagramMethod> SerializeWithInnerMethods(SequenceDiagramMethod sequenceDiagramMethod)
+        {
+            return new SequenceDiagramMethod[] { sequenceDiagramMethod }
+                .Concat(sequenceDiagramMethod.CallsToOtherTypes.SelectMany(SerializeWithInnerMethods));
+        }
+
     }
 }

@@ -117,6 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SequenceDiagram.TestProject1.Actor1.MethodThatActivatesActor2_1" xml:space="preserve">
+    <value>sequenceDiagram
+    activate Actor1
+    Actor1-&gt;&gt;Actor2: CalActor1Twice
+    activate Actor2
+    Actor2-&gt;&gt;Actor1: EmptyMethod
+    Actor2-&gt;&gt;Actor1: EmptyMethod
+    deactivate Actor2
+    deactivate Actor1</value>
+  </data>
   <data name="SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn2Steps_1" xml:space="preserve">
     <value>sequenceDiagram
     activate Actor1

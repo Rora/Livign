@@ -54,12 +54,18 @@ Scenario: Sequence diagram with a call that recurs in 2 steps
 		| SolutionFile | Project      | Class               | Method                     |
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatRecursIn2Steps_1 |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn2Steps_1' entry in the resx
-
+	
 Scenario: Sequence diagram with a call that recurs in 3 steps (last one via a call on the same class)
 	When I call Livign.CodeToDesign with the following parameters
 		| SolutionFile | Project      | Class               | Method                     |
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatRecursIn3Steps_1 |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn3Steps_1' entry in the resx
+
+Scenario: Sequence diagram with an activated actor when that actor calls another actor twice
+	When I call Livign.CodeToDesign with the following parameters
+		| SolutionFile | Project      | Class               | Method                     |
+		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatActivatesActor2_1 |
+	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatActivatesActor2_1' entry in the resx
 
 Scenario: Temp
 	When I call Livign.CodeToDesign with the following parameters

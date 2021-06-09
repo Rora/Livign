@@ -56,6 +56,10 @@ namespace TestProject1
         {
             MethodThatRecursIn3Steps_1();
         }
+        internal void MethodThatActivatesActor2_1()
+        {
+            _actor2.CalActor1Twice();
+        }
 
     }
 }

@@ -36,5 +36,11 @@ namespace TestProject1
             _actor1.MethodThatRecursIn2Steps_1();
             _actor1.EmptyCall();
         }
+
+        internal void CalActor1Twice()
+        {
+            _actor1.EmptyCall();
+            _actor1.EmptyCall();
+        }
     }
 }
