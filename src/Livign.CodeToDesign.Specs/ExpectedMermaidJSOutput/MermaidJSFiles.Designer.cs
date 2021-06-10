@@ -65,8 +65,8 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: CalActor1Twice
         ///    activate Actor2
-        ///    Actor2-&gt;&gt;Actor1: EmptyMethod
-        ///    Actor2-&gt;&gt;Actor1: EmptyMethod
+        ///    Actor2-&gt;&gt;Actor1: EmptyCall
+        ///    Actor2-&gt;&gt;Actor1: EmptyCall
         ///    deactivate Actor2
         ///    deactivate Actor1.
         /// </summary>
@@ -80,8 +80,10 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: MethodThatRecursIn2Steps_2
+        ///    activate Actor2
         ///    Actor2-&gt;&gt;Actor1: MethodThatRecursIn2Steps_1
         ///    Actor2-&gt;&gt;Actor1: EmptyCall
+        ///    deactivate Actor2
         ///    deactivate Actor1.
         /// </summary>
         internal static string SequenceDiagram_TestProject1_Actor1_MethodThatRecursIn2Steps_1 {
@@ -94,7 +96,9 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: MethodThatRecursIn3Steps_2
+        ///    activate Actor2
         ///    Actor2-&gt;&gt;Actor1: MethodThatRecursIn3Steps_3
+        ///    deactivate Actor2
         ///    deactivate Actor1.
         /// </summary>
         internal static string SequenceDiagram_TestProject1_Actor1_MethodThatRecursIn3Steps_1 {

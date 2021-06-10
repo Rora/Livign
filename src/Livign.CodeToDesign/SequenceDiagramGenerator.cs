@@ -38,7 +38,7 @@ namespace Livign.CodeToDesign
             var callStack = new List<IMethodSymbol>();
             AnalyzeCallsToOtherTypesForMethod(sqRootMethod, compilation, methodToAnalyzeSymbol, callStack);
 
-            return GenerateSequenceDiagram(typeToAnalyzeSymbol, sqRootMethod);
+            return GenerateSequenceDiagram(sqRootMethod);
         }
 
         private static async Task<Compilation> LoadAndCompileProjectAsync(string pathToSlnFile, string projectName)
@@ -142,19 +142,29 @@ namespace Livign.CodeToDesign
             callStack.Remove(methodToAnalyzeSymbol);
         }
 
-        private static string GenerateSequenceDiagram(ITypeSymbol typeToAnalyzeSymbol,
-            SequenceDiagramMethod sqRootMethod)
+        private static string GenerateSequenceDiagram(SequenceDiagramMethod sqRootMethod)
         {
-            var serializedMethods = sqRootMethod.CallsToOtherTypes.SelectMany(m => SerializeWithInnerMethods(m));
+            var diagramBody = sqRootMethod.CallsToOtherTypes.SelectMany(GenerateMermaidJSFor);
 
-            var sequenceDiagramBody = String.Join(Environment.NewLine,
-                serializedMethods.Select(sqEntry => $"    {sqEntry.CallingActor}->>{sqEntry.CalledActor}: {sqEntry.Description}"));
-            return String.Format(DiagramTemplates.SequenceDiagramTemplate, typeToAnalyzeSymbol.Name, sequenceDiagramBody);
+            var sequenceDiagramBody = String.Join(Environment.NewLine, diagramBody);
+            return String.Format(DiagramTemplates.SequenceDiagramTemplate, sqRootMethod.CalledActor, sequenceDiagramBody);
         }
-        private static IEnumerable<SequenceDiagramMethod> SerializeWithInnerMethods(SequenceDiagramMethod sequenceDiagramMethod)
+
+        private static List<string> GenerateMermaidJSFor(SequenceDiagramMethod sqMethod)
         {
-            return new SequenceDiagramMethod[] { sequenceDiagramMethod }
-                .Concat(sequenceDiagramMethod.CallsToOtherTypes.SelectMany(SerializeWithInnerMethods));
+            var results = new List<string>
+            {
+                $"    {sqMethod.CallingActor}->>{sqMethod.CalledActor}: {sqMethod.Description}"
+            };
+
+            if (sqMethod.CallsToOtherTypes.Any())
+            {
+                results.Add($"    activate {sqMethod.CalledActor}");
+                results.AddRange(sqMethod.CallsToOtherTypes.SelectMany(GenerateMermaidJSFor));
+                results.Add($"    deactivate {sqMethod.CalledActor}");
+            }
+
+            return results;
         }
 
     }

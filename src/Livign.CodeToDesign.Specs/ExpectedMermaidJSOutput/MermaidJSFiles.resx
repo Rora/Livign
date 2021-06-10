@@ -122,8 +122,8 @@
     activate Actor1
     Actor1-&gt;&gt;Actor2: CalActor1Twice
     activate Actor2
-    Actor2-&gt;&gt;Actor1: EmptyMethod
-    Actor2-&gt;&gt;Actor1: EmptyMethod
+    Actor2-&gt;&gt;Actor1: EmptyCall
+    Actor2-&gt;&gt;Actor1: EmptyCall
     deactivate Actor2
     deactivate Actor1</value>
   </data>
@@ -131,15 +131,19 @@
     <value>sequenceDiagram
     activate Actor1
     Actor1-&gt;&gt;Actor2: MethodThatRecursIn2Steps_2
+    activate Actor2
     Actor2-&gt;&gt;Actor1: MethodThatRecursIn2Steps_1
     Actor2-&gt;&gt;Actor1: EmptyCall
+    deactivate Actor2
     deactivate Actor1</value>
   </data>
   <data name="SequenceDiagram.TestProject1.Actor1.MethodThatRecursIn3Steps_1" xml:space="preserve">
     <value>sequenceDiagram
     activate Actor1
     Actor1-&gt;&gt;Actor2: MethodThatRecursIn3Steps_2
+    activate Actor2
     Actor2-&gt;&gt;Actor1: MethodThatRecursIn3Steps_3
+    deactivate Actor2
     deactivate Actor1</value>
   </data>
   <data name="SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols" xml:space="preserve">
