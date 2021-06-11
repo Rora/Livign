@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20214.1" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.20214.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Livign.CodeToDesign\Livign.CodeToDesign.csproj" />
+  </ItemGroup>
+
+</Project>

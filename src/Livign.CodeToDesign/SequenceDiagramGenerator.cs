@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Livign.CodeToDesign
 {
-    public class SequenceDiagramGenerator
+    public class SequenceDiagramGenerator : ISequenceDiagramGenerator
     {
         public static void Initialize()
         {

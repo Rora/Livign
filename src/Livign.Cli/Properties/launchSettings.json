@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Livign.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "generate sequence-diagram Livign.CodeToDesign.SequenceDiagramGenerator GenerateAsync --solutionFile ..\\..\\..\\..\\Livign.sln --projectName Livign.CodeToDesign"
+    }
+  }
+}

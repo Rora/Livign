@@ -66,11 +66,3 @@ Scenario: Sequence diagram with an activated actor when that actor calls another
 		| SolutionFile | Project      | Class               | Method                     |
 		| Livign.sln   | TestProject1 | TestProject1.Actor1 | MethodThatActivatesActor2_1 |
 	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.MethodThatActivatesActor2_1' entry in the resx
-
-Scenario: Temp
-	When I call Livign.CodeToDesign with the following parameters
-		| SolutionFile | Project             | Class                                        | Method        |
-		| Livign.sln   | Livign.CodeToDesign | Livign.CodeToDesign.SequenceDiagramGenerator | GenerateAsync |
-	Then the result should be equal to the 'SequenceDiagram.TestProject1.Actor1.OneCallToOtherActorViaPrivateMethod' entry in the resx
-#Test with a call on the result of a method
-#Test with a call to a private methods
