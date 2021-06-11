@@ -56,7 +56,7 @@ namespace Livign.Cli
             generateSequenceDiagramCommand.AddArgument(
                 new Argument<string>("class") { Description = "Fully qualified classname" });
             generateSequenceDiagramCommand.AddArgument(
-                new Argument<string>("method") { Description = "Method to generate sequence diagram from" });
+                new Argument<string>("method") { Description = "Method to generate sequence diagram for" });
             generateSequenceDiagramCommand.AddOption(
                 new Option<string>(new[] { "--solutionFile", "--sln" }, "Path to the solution file to scan") { Required = true });
             generateSequenceDiagramCommand.AddOption(
