@@ -63,6 +63,18 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         /// <summary>
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
+        ///
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_CallToDotnetSdkClass {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.CallToDotnetSdkClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
         ///    Actor1-&gt;&gt;Actor2: CalActor1Twice
         ///    activate Actor2
         ///    Actor2-&gt;&gt;Actor1: EmptyCall
@@ -110,12 +122,26 @@ namespace Livign.CodeToDesign.Specs.ExpectedMermaidJSOutput {
         /// <summary>
         ///   Looks up a localized string similar to sequenceDiagram
         ///    activate Actor1
+        ///
+        ///    deactivate Actor1.
+        /// </summary>
+        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToAClassFromAssemblyWithoutSymbols_NotWhiteListed {
+            get {
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols_Not" +
+                        "WhiteListed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sequenceDiagram
+        ///    activate Actor1
         ///    Actor1-&gt;&gt;JsonConvert: DeserializeObject
         ///    deactivate Actor1.
         /// </summary>
-        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToAClassFromAssemblyWithoutSymbols {
+        internal static string SequenceDiagram_TestProject1_Actor1_OneCallToAClassFromAssemblyWithoutSymbols_WhiteListed {
             get {
-                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols", resourceCulture);
+                return ResourceManager.GetString("SequenceDiagram.TestProject1.Actor1.OneCallToAClassFromAssemblyWithoutSymbols_Whi" +
+                        "teListed", resourceCulture);
             }
         }
         

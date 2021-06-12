@@ -282,12 +282,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type in an assembly without symbols", SourceLine=39)]
-        public virtual void SequenceDiagramWithACallToAnotherTypeInAnAssemblyWithoutSymbols()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type in an assembly without symbols that " +
+            "is not whitelisted", SourceLine=39)]
+        public virtual void SequenceDiagramWithACallToAnotherTypeInAnAssemblyWithoutSymbolsThatIsNotWhitelisted()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type in an assembly without symbols", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type in an assembly without symbols that " +
+                    "is not whitelisted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 40
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -323,18 +325,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 44
  testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToA" +
-                        "ClassFromAssemblyWithoutSymbols\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                        "ClassFromAssemblyWithoutSymbols_NotWhiteListed\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a recursive call", SourceLine=45)]
-        public virtual void SequenceDiagramWithARecursiveCall()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call to another type in an assembly without symbols that " +
+            "is whitelisted", SourceLine=45)]
+        public virtual void SequenceDiagramWithACallToAnotherTypeInAnAssemblyWithoutSymbolsThatIsWhitelisted()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a recursive call", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call to another type in an assembly without symbols that " +
+                    "is whitelisted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 46
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -359,29 +363,31 @@ this.ScenarioInitialize(scenarioInfo);
                             "SolutionFile",
                             "Project",
                             "Class",
-                            "Method"});
+                            "Method",
+                            "ExternalAssemblyWhitelistedTypesStr"});
                 table6.AddRow(new string[] {
                             "Livign.sln",
                             "TestProject1",
                             "TestProject1.Actor1",
-                            "SelfCallingRecursiveMethod"});
+                            "OneCallToAClassFromAssemblyWithoutSymbols",
+                            "Newtonsoft.Json.JsonConvert"});
 #line 47
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table6, "When ");
 #line hidden
 #line 50
- testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.SelfCallin" +
-                        "gRecursiveMethod\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToA" +
+                        "ClassFromAssemblyWithoutSymbols_WhiteListed\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call that recurs in 2 steps", SourceLine=51)]
-        public virtual void SequenceDiagramWithACallThatRecursIn2Steps()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a recursive call", SourceLine=51)]
+        public virtual void SequenceDiagramWithARecursiveCall()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call that recurs in 2 steps", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a recursive call", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 52
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -411,26 +417,24 @@ this.ScenarioInitialize(scenarioInfo);
                             "Livign.sln",
                             "TestProject1",
                             "TestProject1.Actor1",
-                            "MethodThatRecursIn2Steps_1"});
+                            "SelfCallingRecursiveMethod"});
 #line 53
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table7, "When ");
 #line hidden
 #line 56
- testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.MethodThat" +
-                        "RecursIn2Steps_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.SelfCallin" +
+                        "gRecursiveMethod\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call that recurs in 3 steps (last one via a call on the s" +
-            "ame class)", SourceLine=57)]
-        public virtual void SequenceDiagramWithACallThatRecursIn3StepsLastOneViaACallOnTheSameClass()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call that recurs in 2 steps", SourceLine=57)]
+        public virtual void SequenceDiagramWithACallThatRecursIn2Steps()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call that recurs in 3 steps (last one via a call on the s" +
-                    "ame class)", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call that recurs in 2 steps", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 58
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -460,26 +464,26 @@ this.ScenarioInitialize(scenarioInfo);
                             "Livign.sln",
                             "TestProject1",
                             "TestProject1.Actor1",
-                            "MethodThatRecursIn3Steps_1"});
+                            "MethodThatRecursIn2Steps_1"});
 #line 59
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table8, "When ");
 #line hidden
 #line 62
  testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.MethodThat" +
-                        "RecursIn3Steps_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                        "RecursIn2Steps_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with an activated actor when that actor calls another actor twic" +
-            "e", SourceLine=63)]
-        public virtual void SequenceDiagramWithAnActivatedActorWhenThatActorCallsAnotherActorTwice()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with a call that recurs in 3 steps (last one via a call on the s" +
+            "ame class)", SourceLine=63)]
+        public virtual void SequenceDiagramWithACallThatRecursIn3StepsLastOneViaACallOnTheSameClass()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with an activated actor when that actor calls another actor twic" +
-                    "e", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with a call that recurs in 3 steps (last one via a call on the s" +
+                    "ame class)", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 64
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -509,24 +513,26 @@ this.ScenarioInitialize(scenarioInfo);
                             "Livign.sln",
                             "TestProject1",
                             "TestProject1.Actor1",
-                            "MethodThatActivatesActor2_1"});
+                            "MethodThatRecursIn3Steps_1"});
 #line 65
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table9, "When ");
 #line hidden
 #line 68
  testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.MethodThat" +
-                        "ActivatesActor2_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                        "RecursIn3Steps_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Temp", SourceLine=69)]
-        public virtual void Temp()
+        [TechTalk.SpecRun.ScenarioAttribute("Sequence diagram with an activated actor when that actor calls another actor twic" +
+            "e", SourceLine=69)]
+        public virtual void SequenceDiagramWithAnActivatedActorWhenThatActorCallsAnotherActorTwice()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Temp", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sequence diagram with an activated actor when that actor calls another actor twic" +
+                    "e", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 70
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -554,15 +560,15 @@ this.ScenarioInitialize(scenarioInfo);
                             "Method"});
                 table10.AddRow(new string[] {
                             "Livign.sln",
-                            "Livign.CodeToDesign",
-                            "Livign.CodeToDesign.SequenceDiagramGenerator",
-                            "GenerateAsync"});
+                            "TestProject1",
+                            "TestProject1.Actor1",
+                            "MethodThatActivatesActor2_1"});
 #line 71
  testRunner.When("I call Livign.CodeToDesign with the following parameters", ((string)(null)), table10, "When ");
 #line hidden
 #line 74
- testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.OneCallToO" +
-                        "therActorViaPrivateMethod\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be equal to the \'SequenceDiagram.TestProject1.Actor1.MethodThat" +
+                        "ActivatesActor2_1\' entry in the resx", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -12,5 +12,9 @@ namespace Livign.CodeToDesign.Specs.Steps.CodeToDesign
         public string Project { get; set; }
         public string Class { get; set; }
         public string Method { get; set; }
+        public string ExternalAssemblyWhitelistedTypesStr { get; set; }
+        public IEnumerable<string> ExternalAssemblyWhitelistedTypes => string.IsNullOrEmpty(ExternalAssemblyWhitelistedTypesStr) 
+            ? null 
+            : ExternalAssemblyWhitelistedTypesStr.Split(",").Select(s => s.Trim()).ToArray();
     }
 }

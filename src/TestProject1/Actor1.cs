@@ -60,6 +60,10 @@ namespace TestProject1
         {
             _actor2.CalActor1Twice();
         }
+        internal void CallToDotnetSdkClass()
+        {
+            Console.WriteLine("hello world");
+        }
 
     }
 }

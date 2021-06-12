@@ -12,14 +12,13 @@ namespace Livign.CodeToDesign.Specs.Steps
     [Binding]
     public sealed class CodeToDesignSteps
     {
-
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         private readonly ScenarioContext _ctx;
+        private readonly ISequenceDiagramGenerator _sequenceDiagramGenerator;
 
         public CodeToDesignSteps(ScenarioContext scenarioContext)
         {
             _ctx = scenarioContext;
+            _sequenceDiagramGenerator = _ctx.GetRequiredService<ISequenceDiagramGenerator>();
         }
 
         [When(@"I call Livign\.CodeToDesign with the following parameters")]
@@ -28,8 +27,7 @@ namespace Livign.CodeToDesign.Specs.Steps
             var paramsDto = table.CreateInstance<CodeToDesignParamsDto>();
             var slnFileLoc = Path.Combine(Environment.CurrentDirectory, "..", paramsDto.SolutionFile);
 
-            var sut = new SequenceDiagramGenerator();
-            var generatedDiagram = await sut.GenerateAsync(slnFileLoc, paramsDto.Project, paramsDto.Class, paramsDto.Method);
+            var generatedDiagram = await _sequenceDiagramGenerator.GenerateAsync(slnFileLoc, paramsDto.Project, paramsDto.Class, paramsDto.Method, paramsDto.ExternalAssemblyWhitelistedTypes);
             _ctx.Set(generatedDiagram, ContextKeys.LastGeneratedDiagramKey);
         }
 

@@ -26,6 +26,5 @@ namespace Livign.CodeToDesign.Specs.Steps
             var expectedDiagram = MermaidJSFiles.ResourceManager.GetString(diagramResxKey, CultureInfo.InvariantCulture);
             _ctx.Get<string>(ContextKeys.LastGeneratedDiagramKey).Should().Be(expectedDiagram);
         }
-
     }
 }
