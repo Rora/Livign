@@ -24,23 +24,30 @@ namespace Livign.CodeToDesign
         /// Current impl doesn't support:
         ///   methods that have multiple overloads
         /// </summary>
-        public async Task<string> GenerateAsync(string pathToSlnFile, string projectName, string classFullyQualifiedName, 
+        public async Task<string> GenerateAsync(string pathToSlnFile, string projectName, string classFullyQualifiedName,
             string methodName, IEnumerable<string> externalAssemblyWhitelistedTypes = null)
         {
-            externalAssemblyWhitelistedTypes ??= Array.Empty<string>();
-            var compilation = await LoadAndCompileProjectAsync(pathToSlnFile, projectName).ConfigureAwait(false);
-
+            var (compilation, projects) = await LoadAndCompileProjectAsync(pathToSlnFile, projectName).ConfigureAwait(false);
             var typeToAnalyzeSymbol = (ITypeSymbol)compilation.GetTypeByMetadataName(classFullyQualifiedName);
             var methodToAnalyzeSymbol = (IMethodSymbol)typeToAnalyzeSymbol.GetMembers(methodName).Single(m => m is IMethodSymbol);
 
-            var sqRootMethod = new SequenceDiagramMethod(string.Empty, methodToAnalyzeSymbol.ContainingType.Name, methodToAnalyzeSymbol.Name);
+            var ctx = new Models.SequenceDiagramGeneratorContext
+            {
+                ClassToScanFullyQualifiedName = classFullyQualifiedName,
+                MethodToScan = methodName,
+                ExternalAssemblyWhitelistedTypes = externalAssemblyWhitelistedTypes ??= Array.Empty<string>(),
+                Compilation = compilation,
+                Projects = projects
+            };
+
+            var sqRootMethod = new SequenceDiagramMethod(CallingActor: string.Empty, methodToAnalyzeSymbol.ContainingType.Name, methodToAnalyzeSymbol.Name);
             var callStack = new List<IMethodSymbol>();
-            AnalyzeCallsToOtherTypesForMethod(sqRootMethod, compilation, methodToAnalyzeSymbol, callStack, externalAssemblyWhitelistedTypes);
+            AnalyzeCallsToOtherTypesForMethod(ctx, sqRootMethod, methodToAnalyzeSymbol, callStack);
 
             return GenerateSequenceDiagram(sqRootMethod);
         }
 
-        private static async Task<Compilation> LoadAndCompileProjectAsync(string pathToSlnFile, string projectName)
+        private static async Task<(Compilation, Models.Project[])> LoadAndCompileProjectAsync(string pathToSlnFile, string projectName)
         {
             var _ = typeof(Microsoft.CodeAnalysis.CSharp.Formatting.CSharpFormattingOptions); // this line forces a reference so MSBuild loads the assembly in question.
             var workspace = MSBuildWorkspace.Create(
@@ -51,7 +58,7 @@ namespace Livign.CodeToDesign
             var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
             ValidateCompilation(compilation);
 
-            return compilation;
+            return (compilation, sln.Projects.Select(p => new Models.Project(p)).ToArray());
         }
 
         private static Project GetProject(string pathToSlnFile, string projectName, Solution sln)
@@ -82,10 +89,10 @@ namespace Livign.CodeToDesign
             }
         }
 
-        private void AnalyzeCallsToOtherTypesForMethod(SequenceDiagramMethod methodAnalyzeResult,
-            Compilation compilation, IMethodSymbol methodToAnalyzeSymbol, IList<IMethodSymbol> callStack, IEnumerable<string> externalAssemblyWhitelistedTypes)
+        private void AnalyzeCallsToOtherTypesForMethod(Models.SequenceDiagramGeneratorContext ctx, SequenceDiagramMethod methodAnalyzeResult,
+            IMethodSymbol methodToAnalyzeSymbol, IList<IMethodSymbol> callStack)
         {
-            if (IsDefinedInExternalAssembly(methodToAnalyzeSymbol))
+            if (IsDefinedInExternalAssembly(ctx, methodToAnalyzeSymbol))
             {
                 //If we can't find any declaring syntax references then we assume this type and method were declared in an external dll
                 return;
@@ -106,7 +113,7 @@ namespace Livign.CodeToDesign
                             .DescendantNodes()
                             .OfType<MethodDeclarationSyntax>()
                             .Single(n => n.Identifier.ToFullString() == methodToAnalyzeSymbol.Name); //Don't support overloads yet
-            var methodToAnalyzeSemanticModel = compilation.GetSemanticModel(methodToAnalyzeSyntaxTreeRoot.SyntaxTree);
+            var methodToAnalyzeSemanticModel = ctx.Compilation.GetSemanticModel(methodToAnalyzeSyntaxTreeRoot.SyntaxTree);
 
             var invocationMethodSymbols = methodToAnalyzeSyntaxTreeRoot.DescendantNodes(n => true)
                 .OfType<InvocationExpressionSyntax>()
@@ -120,11 +127,11 @@ namespace Livign.CodeToDesign
                 if (IsMethodOnSameType(typeToAnalyzeSymbol, invocationMethodSymbol))
                 {
                     //We don't want to model this call, but we do want to model calls made by this call
-                    AnalyzeCallsToOtherTypesForMethod(methodAnalyzeResult, compilation, invocationMethodSymbol, callStack, externalAssemblyWhitelistedTypes);
+                    AnalyzeCallsToOtherTypesForMethod(ctx, methodAnalyzeResult, invocationMethodSymbol, callStack);
                 }
-                else if (IsDefinedInExternalAssembly(invocationMethodSymbol))
+                else if (IsDefinedInExternalAssembly(ctx, invocationMethodSymbol))
                 {
-                    if (IsCallToExternalAssemblyWhitelisted(invocationMethodSymbol, externalAssemblyWhitelistedTypes))
+                    if (IsCallToExternalAssemblyWhitelisted(ctx, invocationMethodSymbol))
                     {
                         //We want to model the call but (not the calls it makes) if it's whitelisted
                         var sqEntry = new SequenceDiagramMethod(
@@ -147,7 +154,7 @@ namespace Livign.CodeToDesign
                         Description: invocationMethodSymbol.Name
                     );
                     methodAnalyzeResult.CallsToOtherTypes.Add(sqEntry);
-                    AnalyzeCallsToOtherTypesForMethod(sqEntry, compilation, invocationMethodSymbol, callStack, externalAssemblyWhitelistedTypes);
+                    AnalyzeCallsToOtherTypesForMethod(ctx, sqEntry, invocationMethodSymbol, callStack);
                 }
 
             }
@@ -155,19 +162,20 @@ namespace Livign.CodeToDesign
             callStack.Remove(methodToAnalyzeSymbol);
         }
 
-        private static bool IsDefinedInExternalAssembly(IMethodSymbol methodToAnalyzeSymbol)
+        private static bool IsDefinedInExternalAssembly(Models.SequenceDiagramGeneratorContext ctx, IMethodSymbol methodToAnalyzeSymbol)
         {
-            return !methodToAnalyzeSymbol.DeclaringSyntaxReferences.Any();
+            var assemblyName = methodToAnalyzeSymbol.ContainingAssembly.Identity.Name;
+            return !ctx.Projects.Any(p => p.AssemblyName == assemblyName);
         }
-        
+
         private static bool IsMethodOnSameType(INamedTypeSymbol typeToAnalyzeSymbol, IMethodSymbol invocationMethodSymbol)
         {
             return SymbolEqualityComparer.Default.Equals(invocationMethodSymbol.ContainingType, typeToAnalyzeSymbol);
         }
 
-        private bool IsCallToExternalAssemblyWhitelisted(IMethodSymbol invocationMethodSymbol, IEnumerable<string> externalAssemblyWhitelistedTypes)
+        private bool IsCallToExternalAssemblyWhitelisted(Models.SequenceDiagramGeneratorContext ctx, IMethodSymbol invocationMethodSymbol)
         {
-            return externalAssemblyWhitelistedTypes.Contains(invocationMethodSymbol.ContainingType.ToDisplayString(_symbolFqnFormat));
+            return ctx.ExternalAssemblyWhitelistedTypes.Contains(invocationMethodSymbol.ContainingType.ToDisplayString(_symbolFqnFormat));
         }
 
         private static string GenerateSequenceDiagram(SequenceDiagramMethod sqRootMethod)
